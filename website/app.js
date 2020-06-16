@@ -14,7 +14,7 @@ const performAction = () => {
       date: newDate,
       temp: data.main.temp,
       userResponse,
-    }).then((newData) => {
+    }).then(() => {
       updateUI();
     });
   });
