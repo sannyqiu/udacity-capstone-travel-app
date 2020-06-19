@@ -7,7 +7,7 @@ body {
   display: grid;
   grid-auto-rows: minmax(150px, auto);
   grid-template-columns: auto;
-  height: 100vh;
+  height: 110vh;
   background: #f23557;
   color: #f0d43a;
   justify-content: center;
@@ -17,7 +17,7 @@ body {
 }
 
 .holder {
-  /* border: black 1px solid; */
+  border: black 1px solid;
 }
 
 .feel {
