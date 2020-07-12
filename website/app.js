@@ -9,7 +9,7 @@ let newDate = d.getMonth() + 1 + "." + d.getDate() + "." + d.getFullYear();
 const performAction = () => {
   const zip = document.getElementById("zip").value;
   const userResponse = document.getElementById("feelings").value;
-  if (zip !== null || userResponse !== null) {
+  if (zip !== "" || userResponse !== "") {
     getWeatherData(baseURL, zip, apiKey).then((data) => {
       postData("/add", {
         date: newDate,
