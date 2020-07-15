@@ -60,4 +60,10 @@ const updateUI = async () => {
   }
 };
 
-document.getElementById("generate").addEventListener("click", performAction);
+const clickEvent = () => {
+  document.getElementById("generate").addEventListener("click", performAction);
+};
+
+clickEvent();
+
+export { performAction, clickEvent };
