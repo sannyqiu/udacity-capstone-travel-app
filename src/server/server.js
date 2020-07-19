@@ -15,30 +15,36 @@ app.use(bodyParser.json());
 
 const cors = require("cors");
 app.use(cors());
-// Initialize the main project folder
-// app.use(express.static("website"));
 
 // Initialize the dist folder
 app.use(express.static("dist"));
 
 // Setup Server
 
-const port = 8000;
+const port = 3030;
 const server = app.listen(port, () => {
   console.log(`running on port: ${port}`);
 });
 
 // Get route
 
-app.get("/data", (req, res) => {
+app.get("/", (req, res) => {
+  res.sendFile("dist/index.html");
+});
+
+// Geonames Post route
+
+app.post("/geonames", (req, res) => {
+  dataGeonames = {
+    latitude = req.body.lat,
+    longitude = req.body.lng
+  }
+  projectData.push(dataGeonames);
   res.send(projectData);
 });
 
-// Post route
-// const data = [];
-app.post("/add", (req, res) => {
-  projectData.temp = req.body.data.temp;
-  projectData.date = req.body.data.date;
-  projectData.userResponse = req.body.data.userResponse;
-  res.send(projectData);
-});
+// app.post("/", (req, res) => {
+//   projectData.temp = req.body.data.temp;
+//   projectData.date = req.body.data.date;
+//   res.send(projectData);
+// });
