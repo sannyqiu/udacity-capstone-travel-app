@@ -1,5 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-let projectData = {};
+let projectData = [];
 
 // Require Express to run server and routes
 const express = require("express");
@@ -36,11 +36,21 @@ app.get("/", (req, res) => {
 
 app.post("/geonames", (req, res) => {
   dataGeonames = {
-    latitude = req.body.lat,
-    longitude = req.body.lng
-  }
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+  };
   projectData.push(dataGeonames);
   res.send(projectData);
+});
+
+// WeatherBit Post Route
+
+app.post("/weatherbit", (req, res) => {
+  dataWeatherbit = {
+    high: req.body.high,
+    low: req.body.low,
+    description: req.body.description,
+  };
 });
 
 // app.post("/", (req, res) => {
