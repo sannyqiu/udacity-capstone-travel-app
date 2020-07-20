@@ -51,6 +51,9 @@ app.post("/weatherbit", (req, res) => {
     low: req.body.low,
     description: req.body.description,
   };
+  projectData.push(dataWeatherbit);
+  res.send(projectData);
+  console.log(`server ${projectData}`);
 });
 
 // app.post("/", (req, res) => {

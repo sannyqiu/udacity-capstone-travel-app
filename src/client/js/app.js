@@ -17,20 +17,26 @@ const performAction = async () => {
       });
     })
     .then((res) => {
-      console.log(`response from geoname ${res}`);
+      console.log(JSON.stringify(res));
       const lat = res[0].latitude;
       const lng = res[0].longitude;
+      console.log(`lat:${lat}&&&&lng:${lng}`);
       return { lat, lng };
     })
-    .then((lat, lng) => {
+    .then(({ lat, lng }) => {
+      console.log(`second lat:${lat}&&&&lng:${lng}`);
+
       return getDataFromWeatherBit(lat, lng);
     })
     .then((weatherData) => {
-      postData("http://localhost:3030/weatherbit", {
+      return postData("http://localhost:3030/weatherbit", {
         high: weatherData.data[0].high_temp,
         low: weatherData.data[0].low_temp,
         description: weatherData.data[0].weather.description,
       });
+    })
+    .then((res) => {
+      console.log(JSON.stringify(res));
     });
 };
 
@@ -64,10 +70,11 @@ const postData = async (url = "", data = {}) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ data }),
+    body: JSON.stringify(data),
   });
   try {
     const newData = await response.json();
+    console.log(`newData in postData${newData}`);
     return newData;
   } catch (error) {
     console.log("error", error);
