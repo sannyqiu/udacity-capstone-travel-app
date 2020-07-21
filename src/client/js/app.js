@@ -1,18 +1,17 @@
 /* Global Variables */
 const gn_username = "sanny_1123";
-// const city = "new york".trim();
-
 const wb_apiKey = "ddd41151e0cd42b9afbdc9d717234599";
 const pb_apiKey = "17559182-f8032d1d13ae61f3a89baa4b4";
-const city = document.getElementById("city").value;
 
 const performAction = async () => {
-  // Get departure date from UI
+  // Get city and dates from UI
+  const city = document.getElementById("city").value;
   const departureDate = document.getElementsByClassName("myInput")[0].value;
   const returnDate = document.getElementsByClassName("myInput")[1].value;
 
   console.log("depart " + departureDate + "return" + returnDate);
 
+  // Countdown and length of trip
   let d = new Date();
   const daysTillDepart = Math.floor(
     (new Date(departureDate).getTime() - d.getTime()) / (1000 * 3600 * 24)
@@ -25,8 +24,7 @@ const performAction = async () => {
     "tripInfo"
   ).innerHTML = `Your trip is ${daysTillDepart} days away <br> Your trip will last ${lengthOfTrip} days`;
 
-  console.log("days till depart" + daysTillDepart);
-
+  // APIs
   getDataFromGeoNames(city)
     .then((data) => {
       return postData("http://localhost:3030/geonames", {
@@ -36,8 +34,8 @@ const performAction = async () => {
     })
     .then((res) => {
       console.log(`return from geoNames`);
-      const lat = res[0].latitude;
-      const lng = res[0].longitude;
+      const lat = res[res.length - 1].latitude;
+      const lng = res[res.length - 1].longitude;
       return { lat, lng };
     })
     .then(({ lat, lng }) => {
@@ -88,7 +86,7 @@ const getDataFromWeatherBit = async (lat, lng) => {
   }
 };
 
-const getDataFromPixabay = async () => {
+const getDataFromPixabay = async (city) => {
   const url = `https://pixabay.com/api/?key=${pb_apiKey}&q=${city}&image_type=photo`;
   const res = await fetch(url);
   try {
@@ -136,7 +134,9 @@ const postData = async (url = "", data = {}) => {
     console.log("error", error);
   }
 };
-document.getElementById("generate").addEventListener("click", performAction);
+
+const button_submit = document.getElementById("generate");
+button_submit.addEventListener("click", performAction);
 
 export {
   performAction,

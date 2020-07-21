@@ -64,3 +64,6 @@ app.post("/pixabay", (req, res) => {
   projectData.push(dataPixabay);
   res.send(projectData);
 });
+
+// export server
+module.exports = server;
