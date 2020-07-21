@@ -1,15 +1,32 @@
 /* Global Variables */
 const gn_username = "sanny_1123";
-const city = "new york".trim();
+// const city = "new york".trim();
 
 const wb_apiKey = "ddd41151e0cd42b9afbdc9d717234599";
 const pb_apiKey = "17559182-f8032d1d13ae61f3a89baa4b4";
-
-// Create a new date instance dynamically with JS
-// let d = new Date();
-// let newDate = d.getMonth() + 1 + "." + d.getDate() + "." + d.getFullYear();
+const city = document.getElementById("city").value;
 
 const performAction = async () => {
+  // Get departure date from UI
+  const departureDate = document.getElementsByClassName("myInput")[0].value;
+  const returnDate = document.getElementsByClassName("myInput")[1].value;
+
+  console.log("depart " + departureDate + "return" + returnDate);
+
+  let d = new Date();
+  const daysTillDepart = Math.floor(
+    (new Date(departureDate).getTime() - d.getTime()) / (1000 * 3600 * 24)
+  );
+  const lengthOfTrip = Math.ceil(
+    (new Date(returnDate).getTime() - new Date(departureDate).getTime()) /
+      (1000 * 3600 * 24)
+  );
+  document.getElementById(
+    "tripInfo"
+  ).innerHTML = `Your trip is ${daysTillDepart} days away <br> Your trip will last ${lengthOfTrip} days`;
+
+  console.log("days till depart" + daysTillDepart);
+
   getDataFromGeoNames(city)
     .then((data) => {
       return postData("http://localhost:3030/geonames", {
@@ -39,7 +56,7 @@ const performAction = async () => {
       return getDataFromPixabay(city);
     })
     .then((data) => {
-      console.log(`data from pixabay ${data}`);
+      console.log(`data from pixabay ${JSON.stringify(data)}`);
       return postData("http://localhost:3030/pixabay", {
         image: data.hits[0].webformatURL,
       }).then(updateUI());
@@ -88,10 +105,16 @@ const updateUI = async () => {
 
   try {
     const allData = await res.json();
-    console.log(`get all data ${allData}`);
-    document.getElementById("image").src = allData[allData.length - 1].img;
+    console.log(`get all data ${JSON.stringify(allData)}`);
+    document.getElementById(
+      "content"
+    ).innerHTML = `Weather Forecast <br> High: ${
+      allData[allData.length - 2].high
+    }, Low: ${allData[allData.length - 2].low} <br>  ${
+      allData[allData.length - 2].description
+    }`;
 
-    return data;
+    document.getElementById("image").src = allData[allData.length - 1].image;
   } catch (error) {
     console.log(error);
   }
@@ -113,6 +136,13 @@ const postData = async (url = "", data = {}) => {
     console.log("error", error);
   }
 };
+document.getElementById("generate").addEventListener("click", performAction);
 
-performAction();
-export { getDataFromGeoNames, getDataFromWeatherBit, performAction };
+export {
+  performAction,
+  getDataFromGeoNames,
+  getDataFromWeatherBit,
+  getDataFromPixabay,
+  updateUI,
+  postData,
+};
