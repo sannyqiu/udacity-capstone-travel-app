@@ -9,8 +9,6 @@ const performAction = async () => {
   const departureDate = document.getElementsByClassName("myInput")[0].value;
   const returnDate = document.getElementsByClassName("myInput")[1].value;
 
-  console.log("depart " + departureDate + "return" + returnDate);
-
   // Countdown and length of trip
   let d = new Date();
   const daysTillDepart = Math.floor(
@@ -33,7 +31,6 @@ const performAction = async () => {
       });
     })
     .then((res) => {
-      console.log(`return from geoNames`);
       const lat = res[res.length - 1].latitude;
       const lng = res[res.length - 1].longitude;
       return { lat, lng };
@@ -49,12 +46,9 @@ const performAction = async () => {
       });
     })
     .then(() => {
-      console.log(`after post weatherData /weatherbit`);
-
       return getDataFromPixabay(city);
     })
     .then((data) => {
-      console.log(`data from pixabay ${JSON.stringify(data)}`);
       return postData("http://localhost:3030/pixabay", {
         image: data.hits[0].webformatURL,
       }).then(updateUI());
@@ -66,7 +60,6 @@ const getDataFromGeoNames = async (city) => {
   const res = await fetch(url);
   try {
     const data = await res.json();
-    console.log(`getGeonames`);
     return data;
   } catch (error) {
     console.log(error);
@@ -78,8 +71,6 @@ const getDataFromWeatherBit = async (lat, lng) => {
   const res = await fetch(url);
   try {
     const data = await res.json();
-    console.log(`getWeatherbit`);
-
     return data;
   } catch (error) {
     console.log(error);
@@ -91,7 +82,6 @@ const getDataFromPixabay = async (city) => {
   const res = await fetch(url);
   try {
     const data = await res.json();
-    console.log(`getPixabay`);
     return data;
   } catch (error) {
     console.log(error);
@@ -103,7 +93,6 @@ const updateUI = async () => {
 
   try {
     const allData = await res.json();
-    console.log(`get all data ${JSON.stringify(allData)}`);
     document.getElementById(
       "content"
     ).innerHTML = `Weather Forecast <br> High: ${
