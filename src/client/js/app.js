@@ -1,8 +1,9 @@
 /* Global Variables */
 const gn_username = "sanny_1123";
-const city = "london";
+const city = "new york".trim();
 
 const wb_apiKey = "ddd41151e0cd42b9afbdc9d717234599";
+const pb_apiKey = "17559182-f8032d1d13ae61f3a89baa4b4";
 
 // Create a new date instance dynamically with JS
 // let d = new Date();
@@ -17,15 +18,12 @@ const performAction = async () => {
       });
     })
     .then((res) => {
-      console.log(JSON.stringify(res));
+      console.log(`return from geoNames`);
       const lat = res[0].latitude;
       const lng = res[0].longitude;
-      console.log(`lat:${lat}&&&&lng:${lng}`);
       return { lat, lng };
     })
     .then(({ lat, lng }) => {
-      console.log(`second lat:${lat}&&&&lng:${lng}`);
-
       return getDataFromWeatherBit(lat, lng);
     })
     .then((weatherData) => {
@@ -35,8 +33,16 @@ const performAction = async () => {
         description: weatherData.data[0].weather.description,
       });
     })
-    .then((res) => {
-      console.log(JSON.stringify(res));
+    .then(() => {
+      console.log(`after post weatherData /weatherbit`);
+
+      return getDataFromPixabay(city);
+    })
+    .then((data) => {
+      console.log(`data from pixabay ${data}`);
+      return postData("http://localhost:3030/pixabay", {
+        image: data.hits[0].webformatURL,
+      }).then(updateUI());
     });
 };
 
@@ -45,7 +51,7 @@ const getDataFromGeoNames = async (city) => {
   const res = await fetch(url);
   try {
     const data = await res.json();
-    console.log(`getGeoName ${data}`);
+    console.log(`getGeonames`);
     return data;
   } catch (error) {
     console.log(error);
@@ -57,6 +63,34 @@ const getDataFromWeatherBit = async (lat, lng) => {
   const res = await fetch(url);
   try {
     const data = await res.json();
+    console.log(`getWeatherbit`);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getDataFromPixabay = async () => {
+  const url = `https://pixabay.com/api/?key=${pb_apiKey}&q=${city}&image_type=photo`;
+  const res = await fetch(url);
+  try {
+    const data = await res.json();
+    console.log(`getPixabay`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateUI = async () => {
+  const res = await fetch("http://localhost:3030/data");
+
+  try {
+    const allData = await res.json();
+    console.log(`get all data ${allData}`);
+    document.getElementById("image").src = allData[allData.length - 1].img;
+
     return data;
   } catch (error) {
     console.log(error);
@@ -74,7 +108,6 @@ const postData = async (url = "", data = {}) => {
   });
   try {
     const newData = await response.json();
-    console.log(`newData in postData${newData}`);
     return newData;
   } catch (error) {
     console.log("error", error);

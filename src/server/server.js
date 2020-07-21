@@ -28,8 +28,8 @@ const server = app.listen(port, () => {
 
 // Get route
 
-app.get("/", (req, res) => {
-  res.sendFile("dist/index.html");
+app.get("/data", (req, res) => {
+  res.send(projectData);
 });
 
 // Geonames Post route
@@ -53,11 +53,14 @@ app.post("/weatherbit", (req, res) => {
   };
   projectData.push(dataWeatherbit);
   res.send(projectData);
-  console.log(`server ${projectData}`);
 });
 
-// app.post("/", (req, res) => {
-//   projectData.temp = req.body.data.temp;
-//   projectData.date = req.body.data.date;
-//   res.send(projectData);
-// });
+// Pixabay Post Route
+
+app.post("/pixabay", (req, res) => {
+  dataPixabay = {
+    image: req.body.image,
+  };
+  projectData.push(dataPixabay);
+  res.send(projectData);
+});
