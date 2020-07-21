@@ -11,32 +11,35 @@
 
     <!-- <link rel="stylesheet" href="../styles/style.scss" /> -->
   </head>
+
   <body>
     <div class="headline">
       Travel App
     </div>
-    <div id="app">
-      <div class="holder city">
-        <label for="city">Enter Your Destination Here</label>
-        <input type="text" id="city" placeholder="Enter City Here" />
-      </div>
-      <div class="holder departureDate">
-        <label for="date">What's your departure date?</label>
-        <input type="date" class="myInput" />
-      </div>
-      <div class="holder returnDate">
-        <label for="date">What's your return date?</label>
-        <input type="date" class="myInput" />
+    <section id="userInput">
+      <div id="app">
+        <div class="city">
+          <label for="city">Enter Your Destination Here</label>
+          <input type="text" id="city" placeholder="Enter City Here" />
+        </div>
+        <div class="departureDate">
+          <label for="date">What's your departure date?</label>
+          <input type="date" class="myInput" />
+        </div>
+        <div class="returnDate">
+          <label for="date">What's your return date?</label>
+          <input type="date" class="myInput" />
+        </div>
+
         <button id="generate" type="submit">Submit</button>
       </div>
-      <div class="holder output">
-        <div id="outputHolder">
-          <img id="image" />
-          <div id="tripInfo"></div>
-          <div id="content"></div>
-        </div>
-      </div>
+    </section>
+    <div class="output">
+      <div id="tripInfo"></div>
+      <div id="content"></div>
+      <img id="image" />
     </div>
+
     <!-- <script src="../js/app.js" type="text/javascript"></script> -->
   </body>
 </html>
