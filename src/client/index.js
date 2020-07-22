@@ -7,8 +7,6 @@ import {
   postData,
 } from "./js/app.js";
 
-document.getElementById("generate").addEventListener("click", performAction);
-
 import "./styles/style.scss";
 import "./styles/header.scss";
 import "./styles/output.scss";

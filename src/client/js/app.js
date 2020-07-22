@@ -62,7 +62,7 @@ const getDataFromGeoNames = async (city) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log(error);
+    alert("GeoNames error!", error);
   }
 };
 
@@ -73,7 +73,7 @@ const getDataFromWeatherBit = async (lat, lng) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log(error);
+    alert("WeatherBit error!", error);
   }
 };
 
@@ -84,7 +84,7 @@ const getDataFromPixabay = async (city) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log(error);
+    alert("Pixabay error!", error);
   }
 };
 
@@ -124,8 +124,10 @@ const postData = async (url = "", data = {}) => {
   }
 };
 
-const button_submit = document.getElementById("generate");
-button_submit.addEventListener("click", performAction);
+document.addEventListener("DOMContentLoaded", () => {
+  const button_submit = document.getElementById("generate");
+  button_submit.addEventListener("click", performAction);
+});
 
 export {
   performAction,
